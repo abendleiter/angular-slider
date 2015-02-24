@@ -97,7 +97,8 @@
         dragstop: '@',
         ngModel: '=?',
         ngModelLow: '=?',
-        ngModelHigh: '=?'
+        ngModelHigh: '=?',
+        onSlideEnd: '=?'
       },
       template: '<div class="bar"><div class="selection"></div></div>\n<div class="handle low"></div><div class="handle high"></div>\n<div class="bubble limit low">{{ values.length ? values[floor || 0] : floor }}</div>\n<div class="bubble limit high">{{ values.length ? values[ceiling || values.length - 1] : ceiling }}</div>\n<div class="bubble value low">{{ values.length ? values[local.ngModelLow || local.ngModel || 0] : local.ngModelLow || local.ngModel || 0 }}</div>\n<div class="bubble value high">{{ values.length ? values[local.ngModelHigh] : local.ngModelHigh }}</div>',
       compile: function(element, attributes) {
@@ -224,6 +225,12 @@
                   if (scope.dragstop) {
                     scope[high] = scope.local[high];
                     scope[low] = scope.local[low];
+                  }
+                  if(scope.onSlideEnd){
+                    scope.onSlideEnd({
+                      high: scope.local[high],
+                      low: scope.local[low]
+                    });
                   }
                   currentRef = ref;
                   return scope.$apply();
